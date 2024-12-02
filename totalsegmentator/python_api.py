@@ -116,7 +116,9 @@ def totalsegmentator(input: Union[str, Path, Nifti1Image], output: Union[str, Pa
         print("\nIf you use this tool please cite: https://pubs.rsna.org/doi/10.1148/ryai.230024\n")
 
     setup_nnunet()
+    print(os.environ["nnUNet_results"] if "nnUNet_results" in os.environ else "nnUNet_results not set")
     setup_totalseg()
+    print(os.environ["TOTALSEG_HOME_DIR"] if "TOTALSEG_HOME_DIR" in os.environ else "TOTALSEG_HOME_DIR not set")
     if license_number is not None:
         set_license_number(license_number)
 
@@ -147,6 +149,13 @@ def totalsegmentator(input: Union[str, Path, Nifti1Image], output: Union[str, Pa
             resample = 1.5
             trainer = "nnUNetTrainerNoMirroring"
             crop = None
+        model = "3d_fullres"
+        folds = [0]
+    elif task == "organs":
+        task_id = [291]
+        resample = 1.5
+        trainer = "nnUNetTrainerNoMirroring"
+        crop = None
         model = "3d_fullres"
         folds = [0]
     elif task == "total_mr":
